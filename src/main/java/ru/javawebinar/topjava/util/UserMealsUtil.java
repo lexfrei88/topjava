@@ -11,8 +11,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * GKislin
- * 31.05.2015.
+ * Util class to work with model UserMeal and UserMealWithExceed classes.
+ *
+ * @author GKislin
+ * @version 31.05.2015
+ *
+ * @author of JavaDoc Aksionchik A.
+ * @version 18.03.2017
  */
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -28,18 +33,24 @@ public class UserMealsUtil {
         System.out.println(getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
     }
 
+    /**
+     * Find out all meals that overhead calories per day and mark it.
+     * Had a filter to set time range.
+     * @param mealList - list with all meals for user;
+     * @param startTime - filter parameter, setting up begin of time range;
+     * @param endTime - filter parameter, setting up end of time range;
+     * @param caloriesPerDay - max amount of calories which allowed for user per day;
+     * @return - List of meals. Every meal after exceeding calories per pay marked with flag;
+     */
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> dayCalories = mealList.stream()
-                .collect(Collectors.groupingBy((k) -> (k).getDateTime().toLocalDate(), Collectors.summingInt(UserMeal::getCalories)));
+                .collect(Collectors.groupingBy(k -> k.getDateTime().toLocalDate(), Collectors.summingInt(UserMeal::getCalories)));
 
         return mealList.stream()
-                .filter(userMeal -> userMeal.getDateTime().toLocalTime().isAfter(startTime) && userMeal.getDateTime().toLocalTime().isBefore(endTime))
+                .filter(userMeal -> TimeUtil.isBetween(userMeal.getDateTime().toLocalTime(), startTime, endTime))
                 .map((userMeal -> {
-                    if (dayCalories.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay) {
-                        return new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), true);
-                    } else {
-                        return new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), false);
-                    }
+                    boolean isExceed = dayCalories.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay;
+                    return new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), isExceed);
                 }))
                 .collect(Collectors.toList());
     }
