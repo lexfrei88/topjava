@@ -29,15 +29,17 @@
             <td>
                 <p>${meal.getCalories()}</p>
             </td>
+            <td>
+                <a href="?action=update&id=${meal.getId()}">Update</a>
+            </td>
+            <td>
+                <a href="?action=delete&id=${meal.getId()}">Delete</a>
+            </td>
         </tr>
     </c:forEach>
 </table>
 <br/>
-<form name="mealForm" method="POST" action="index.html" >
-    <label>
-        ID:
-        <input type="number" name="id"/>
-    </label> <br/>
+<form name="mealForm" method="POST" action="?action=create" >
     <label>
         Date:
         <input type="datetime-local" name="date"/>
@@ -51,9 +53,6 @@
         <input type="number" name="calories"/>
     </label> <br/>
     <input type="submit" name="button" value="Create" />
-    <input type="submit" name="button" value="Read" />
-    <input type="submit" name="button" value="Update" />
-    <input type="submit" name="button" value="Delete" />
 </form>
 </body>
 </html>

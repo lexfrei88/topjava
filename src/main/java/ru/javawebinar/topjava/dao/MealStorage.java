@@ -11,10 +11,10 @@ import java.util.List;
  * @version 1.0
  *          3/25/2017.
  */
-public interface MealStorageInterface {
+public interface MealStorage {
     void create(Meal meal);
-    Meal read(Meal meal);
+    Meal read(int id);
     void update(Meal meal);
-    void delete(Meal meal);
+    void delete(int id);
     List<Meal> getMeals();
 }

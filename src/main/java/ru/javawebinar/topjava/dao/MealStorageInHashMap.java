@@ -13,16 +13,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 1.0
  *          3/25/2017.
  */
-public class MealStorageInHashMap implements MealStorageInterface {
-    private static AtomicInteger idCounter = new AtomicInteger(0);
-    private static Map<Integer, Meal> meals = new ConcurrentHashMap<>();
-    static {
-        meals.put(idCounter.get(), new Meal(idCounter.getAndIncrement(), LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
-        meals.put(idCounter.get(), new Meal(idCounter.getAndIncrement(), LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
-        meals.put(idCounter.get(), new Meal(idCounter.getAndIncrement(), LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
-        meals.put(idCounter.get(), new Meal(idCounter.getAndIncrement(), LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
-        meals.put(idCounter.get(), new Meal(idCounter.getAndIncrement(), LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
-        meals.put(idCounter.get(), new Meal(idCounter.getAndIncrement(), LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+public class MealStorageInHashMap implements MealStorage {
+    private AtomicInteger idCounter = new AtomicInteger(0);
+    private Map<Integer, Meal> meals = new ConcurrentHashMap<>();
+    {
+        create(new Meal(0, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
+        create(new Meal(0, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
+        create(new Meal(0, LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
+        create(new Meal(0, LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        create(new Meal(0, LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
+        create(new Meal(0, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
     }
 
     public void create(Meal meal) {
@@ -30,8 +30,8 @@ public class MealStorageInHashMap implements MealStorageInterface {
         meals.put(id, new Meal(id, meal.getDateTime(), meal.getDescription(), meal.getCalories()));
     }
 
-    public Meal read(Meal meal) {
-        return meals.get(meal.getId());
+    public Meal read(int id) {
+        return meals.get(id);
     }
 
     public void update(Meal meal) {
@@ -53,10 +53,8 @@ public class MealStorageInHashMap implements MealStorageInterface {
         meals.put(meal.getId(), newMeal);
     }
 
-    public void delete(Meal meal) {
-        if (meal.getId() < 0)
-            return;
-        meals.remove(meal.getId());
+    public void delete(int id) {
+        meals.remove(id);
     }
 
     public List<Meal> getMeals() {
