@@ -42,9 +42,7 @@ public class MealServlet extends HttpServlet {
             switch (req.getParameter("action")) {
                 case "delete": {
                     mealStorage.delete(Integer.parseInt(req.getParameter("id")));
-                    List<MealWithExceed> filteredWithExceeded =
-                            MealsUtil.getFilteredWithExceeded(mealStorage.getMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
-                    req.setAttribute("mealsList", filteredWithExceeded);
+                    resp.sendRedirect("meals");
                     break;
                 }
                 case "update": {
@@ -52,6 +50,7 @@ public class MealServlet extends HttpServlet {
                     int id = Integer.parseInt(req.getParameter("id"));
                     Meal readMeal = mealStorage.read(id);
                     req.setAttribute("readMeal", readMeal);
+                    req.getRequestDispatcher(redirect).forward(req, resp);
                     break;
                 }
             }
@@ -59,9 +58,8 @@ public class MealServlet extends HttpServlet {
             List<MealWithExceed> filteredWithExceeded =
                     MealsUtil.getFilteredWithExceeded(mealStorage.getMeals(), LocalTime.MIN, LocalTime.MAX, 2000);
             req.setAttribute("mealsList", filteredWithExceeded);
+            req.getRequestDispatcher(redirect).forward(req, resp);
         }
-
-        req.getRequestDispatcher(redirect).forward(req, resp);
     }
 
     @Override
