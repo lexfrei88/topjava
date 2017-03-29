@@ -70,6 +70,7 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOG.debug("post from meals.jsp");
+        req.setCharacterEncoding("UTF-8");
 
         Meal meal = composeMealFromRequestData(req);
 
