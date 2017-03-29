@@ -53,6 +53,11 @@ public class MealServlet extends HttpServlet {
                     req.getRequestDispatcher(redirect).forward(req, resp);
                     break;
                 }
+                case "create": {
+                    redirect = "mealedit.jsp";
+                    req.getRequestDispatcher(redirect).forward(req, resp);
+                    break;
+                }
             }
         } else {
             List<MealWithExceed> filteredWithExceeded =

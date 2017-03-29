@@ -39,20 +39,21 @@
     </c:forEach>
 </table>
 <br/>
-<form name="mealForm" method="POST" action="?action=create" >
-    <label>
-        Date:
-        <input type="datetime-local" name="date"/>
-    </label> <br/>
-    <label>
-        Description:
-        <input type="text" name="description"/>
-    </label> <br/>
-    <label>
-        Calories:
-        <input type="number" name="calories"/>
-    </label> <br/>
-    <input type="submit" name="button" value="Create" />
-</form>
+<a href="?action=create">ADD</a>
+<%--<form name="mealForm" method="POST" action="?action=create" >--%>
+    <%--<label>--%>
+        <%--Date:--%>
+        <%--<input type="datetime-local" name="date"/>--%>
+    <%--</label> <br/>--%>
+    <%--<label>--%>
+        <%--Description:--%>
+        <%--<input type="text" name="description"/>--%>
+    <%--</label> <br/>--%>
+    <%--<label>--%>
+        <%--Calories:--%>
+        <%--<input type="number" name="calories"/>--%>
+    <%--</label> <br/>--%>
+    <%--<input type="submit" name="button" value="Create" />--%>
+<%--</form>--%>
 </body>
 </html>
