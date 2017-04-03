@@ -13,6 +13,22 @@
         .exceeded {
             color: red;
         }
+        dl {
+            background: none repeat scroll 0 0 #FAFAFA;
+            margin: 8px 0;
+            padding: 0;
+        }
+
+        dt {
+            display: inline-block;
+            width: 70px;
+        }
+
+        dd {
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
@@ -23,11 +39,16 @@
     <hr>
     <form method="get" action="meals">
         <input hidden="" name="action" value="filter">
-        <input type="date" name="startDate">
-        <input type="date" name="endDate">
-        <input type="time" name="startTime">
-        <input type="time" name="endTime">
-        <br/>
+        <dl>
+            <dt>Start:</dt>
+            <dd><input type="date" name="startDate" value="2015-05-30"></dd>
+            <dd><input type="time" name="startTime" value="08:00"></dd>
+        </dl>
+        <dl>
+            <dt>End:</dt>
+            <dd><input type="date" name="endDate" value="2015-05-30"></dd>
+            <dd><input type="time" name="endTime" value="18:00"></dd>
+        </dl>
         <button type="submit">Filter</button>
     </form>
     <hr>

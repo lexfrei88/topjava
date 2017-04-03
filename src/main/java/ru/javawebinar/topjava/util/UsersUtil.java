@@ -11,6 +11,6 @@ import java.util.Comparator;
  */
 public class UsersUtil {
 
-    public static final Comparator<User> comparatorByNameAsc = (o1, o2) -> o1.getName().compareTo(o2.getName());
+    public static final Comparator<User> comparatorByNameAsc = Comparator.comparing(User::getName);
 
 }

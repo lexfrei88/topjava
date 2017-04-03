@@ -8,6 +8,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
+
 @Service
 public class MealServiceImpl implements MealService {
 
@@ -21,18 +23,12 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void delete(int mealId, int userId) throws NotFoundException {
-        if (!repository.delete(mealId, userId)) {
-            throw new NotFoundException("Meal does not belong to user or does not exist.");
-        }
+        checkNotFoundWithId(repository.delete(mealId, userId), mealId);
     }
 
     @Override
-    public Meal get(int mealId, int id) {
-        Meal getMeal = repository.get(mealId, id);
-        if (getMeal == null) {
-            throw new NotFoundException("Meal does not belong to user or does not exist.");
-        }
-        return getMeal;
+    public Meal get(int mealId, int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(mealId, id), mealId);
     }
 
     @Override

@@ -59,25 +59,26 @@ public class MealRestController {
             filteredList = getAll();
         } else {
             filteredList = getAll().stream()
-                    .filter(meal -> DateTimeUtil.isBetweenDate(meal.getDate(), startDate, endDate))
+                    .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
                     .collect(Collectors.toList());
         }
         return filteredList;
     }
 
-    public List<MealWithExceeded> getFilteredWithExceeded(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+    public List<MealWithExceeded> getFilteredWithExceeded(LocalDate startDate, LocalTime startTime,
+                                                          LocalDate endDate, LocalTime endTime) {
         LOG.info("getFilteredWithExceeded");
         List<MealWithExceeded> filteredWithExceeded;
         if (startTime == null || endTime == null) {
-            filteredWithExceeded = MealsUtil.getWithExceeded(getFilteredByDate(startDate, endDate), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+            filteredWithExceeded = MealsUtil.getWithExceeded(getFilteredByDate(startDate, endDate), AuthorizedUser.getCaloriesPerDay());
         } else {
-            filteredWithExceeded = MealsUtil.getFilteredWithExceeded(getFilteredByDate(startDate, endDate),startTime, endTime, MealsUtil.DEFAULT_CALORIES_PER_DAY);
+            filteredWithExceeded = MealsUtil.getFilteredWithExceeded(getFilteredByDate(startDate, endDate),startTime, endTime, AuthorizedUser.getCaloriesPerDay());
         }
         return filteredWithExceeded;
     }
 
     public List<MealWithExceeded> getAllWithExceeded() {
-        return MealsUtil.getWithExceeded(getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+        return MealsUtil.getWithExceeded(getAll(), AuthorizedUser.getCaloriesPerDay());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
