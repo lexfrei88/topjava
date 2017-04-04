@@ -19,24 +19,26 @@ public class SpringMain {
         ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
         System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
 
+        MealRestController mealRestController = appCtx.getBean(MealRestController.class);
+        System.out.println(mealRestController.getAll());
 //        UserRepository userRepository = (UserRepository) appCtx.getBean("mockUserRepository");
-        UserRepository userRepository = appCtx.getBean(UserRepository.class);
-        userRepository.getAll();
+//        UserRepository userRepository = appCtx.getBean(UserRepository.class);
+//        userRepository.getAll();
 
-        UserService userService = appCtx.getBean(UserService.class);
-        userService.save(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
+//        UserService userService = appCtx.getBean(UserService.class);
+//        userService.save(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
 
-        System.out.println();
-        MealRestController controller = appCtx.getBean(MealRestController.class);
-        System.out.println(controller.getAll());
-        System.out.println();
-        controller.delete(6);
-        System.out.println(controller.getAll());
-        System.out.println();
-        controller.save(new Meal(LocalDateTime.now(), "SUPPER", 9999));
-        System.out.println(controller.getAll());
-        System.out.println();
+//        System.out.println();
+//        MealRestController controller = appCtx.getBean(MealRestController.class);
+//        System.out.println(controller.getAll());
+//        System.out.println();
+//        controller.delete(6);
+//        System.out.println(controller.getAll());
+//        System.out.println();
+//        controller.save(new Meal(LocalDateTime.now(), "SUPPER", 9999));
+//        System.out.println(controller.getAll());
+//        System.out.println();
 //        System.out.println(controller.getFiltered(LocalDateTime.of(2015, Month.MAY, 31, 8, 0), LocalDateTime.of(2015, Month.MAY, 31, 14, 0)));
-        appCtx.close();
+//        appCtx.close();
     }
 }

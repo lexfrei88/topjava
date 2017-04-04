@@ -24,7 +24,7 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
     );
 
-    public final static Comparator<Meal> comparatorByDateTimeDesc = Comparator.comparing(Meal::getDateTime).reversed();
+    public static final Comparator<Meal> comparatorByDateTimeDesc = Comparator.comparing(Meal::getDateTime).reversed();
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
