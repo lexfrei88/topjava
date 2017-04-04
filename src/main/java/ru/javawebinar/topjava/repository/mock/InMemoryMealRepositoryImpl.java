@@ -72,7 +72,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
                     .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
                     .collect(Collectors.toList());
         }
-        return filteredList;
+        return filteredList.isEmpty() ? Collections.emptyList() : filteredList;
     }
 
     @Override
