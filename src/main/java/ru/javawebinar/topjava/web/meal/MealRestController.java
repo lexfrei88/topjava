@@ -38,29 +38,19 @@ public class MealRestController {
         return service.get(mealId, AuthorizedUser.id());
     }
 
-    public List<Meal> getAll() {
-        LOG.info("getAll");
-        return service.getAll(AuthorizedUser.id());
-    }
-
-    public List<Meal> getFilteredByDate(LocalDate startDate, LocalDate endDate) {
-        LOG.info("getFilteredByDate");
-        return service.getFilteredByDate(startDate, endDate, AuthorizedUser.id());
-    }
-
     public List<MealWithExceeded> getFilteredWithExceeded(LocalDate startDate, LocalTime startTime,
                                                           LocalDate endDate, LocalTime endTime) {
         LOG.info("getFilteredWithExceeded");
         List<MealWithExceeded> filteredWithExceeded;
         if (startTime == null || endTime == null) {
-            filteredWithExceeded = MealsUtil.getWithExceeded(getFilteredByDate(startDate, endDate), AuthorizedUser.getCaloriesPerDay());
+            filteredWithExceeded = MealsUtil.getWithExceeded(
+                    service.getFilteredByDate(startDate, endDate, AuthorizedUser.id()),
+                    AuthorizedUser.getCaloriesPerDay());
         } else {
-            filteredWithExceeded = MealsUtil.getFilteredWithExceeded(getFilteredByDate(startDate, endDate),startTime, endTime, AuthorizedUser.getCaloriesPerDay());
+            filteredWithExceeded = MealsUtil.getFilteredWithExceeded(
+                    service.getFilteredByDate(startDate, endDate, AuthorizedUser.id()),startTime,
+                    endTime, AuthorizedUser.getCaloriesPerDay());
         }
         return filteredWithExceeded;
-    }
-
-    public List<MealWithExceeded> getAllWithExceeded() {
-        return MealsUtil.getWithExceeded(getAll(), AuthorizedUser.getCaloriesPerDay());
     }
 }

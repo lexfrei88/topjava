@@ -18,8 +18,6 @@ public interface MealRepository {
     // null if not found
     Meal get(int id, int userId);
 
-    List<Meal> getAll(int userId);
-
     List<Meal> getFilteredByDate(LocalDate startDate, LocalDate endDate, int userId);
 
     boolean isBelongToOwner(Meal meal, int userId);

@@ -11,8 +11,6 @@ public interface MealService {
 
     void delete(int mealId, int userId) throws NotFoundException;
 
-    List<Meal> getAll(int userId);
-
     List<Meal> getFilteredByDate(LocalDate startDate, LocalDate endDate, int userId);
 
     Meal get(int mealId, int id);

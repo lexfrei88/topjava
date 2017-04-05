@@ -32,11 +32,6 @@ public class MealServiceImpl implements MealService {
         return checkNotFoundWithId(repository.get(mealId, userId), mealId);
     }
 
-    @Override
-    public List<Meal> getAll(int userId) {
-        return repository.getAll(userId);
-    }
-
     public List<Meal> getFilteredByDate(LocalDate startDate, LocalDate endDate, int userId) {
         return repository.getFilteredByDate(startDate, endDate, userId);
     }

@@ -7,7 +7,6 @@ import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -55,14 +54,6 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public List<Meal> getAll(int userId) {
-        List<Meal> allMeals = repository.values().stream()
-                .filter(meal -> isBelongToOwner(meal, userId))
-                .sorted(MealsUtil.comparatorByDateTimeDesc)
-                .collect(Collectors.toList());
-        return allMeals.isEmpty() ? Collections.emptyList() : allMeals;
-    }
-
     public List<Meal> getFilteredByDate(LocalDate startDate, LocalDate endDate, int userId) {
         List<Meal> filteredList;
         LocalDate tmpStartDate = startDate == null ? LocalDate.MIN : startDate;
@@ -74,13 +65,20 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
                     .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), tmpStartDate, tmpEndDate))
                     .collect(Collectors.toList());
         }
-        return filteredList.isEmpty() ? Collections.emptyList() : filteredList;
+        return filteredList;
     }
 
     @Override
     public boolean isBelongToOwner(Meal meal, int userId) {
         return (meal != null && meal.getUserId() != null) &&
                 Objects.equals(meal.getUserId(), userId);
+    }
+
+    private List<Meal> getAll(int userId) {
+        return repository.values().stream()
+                .filter(meal -> isBelongToOwner(meal, userId))
+                .sorted(MealsUtil.comparatorByDateTimeDesc)
+                .collect(Collectors.toList());
     }
 }
 

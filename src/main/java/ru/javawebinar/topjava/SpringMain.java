@@ -20,7 +20,7 @@ public class SpringMain {
         System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
 
         MealRestController mealRestController = appCtx.getBean(MealRestController.class);
-        System.out.println(mealRestController.getAll());
+        System.out.println(mealRestController.getFilteredWithExceeded(null, null, null, null));
 //        UserRepository userRepository = (UserRepository) appCtx.getBean("mockUserRepository");
 //        UserRepository userRepository = appCtx.getBean(UserRepository.class);
 //        userRepository.getAll();

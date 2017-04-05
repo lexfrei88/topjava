@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -54,7 +53,7 @@ public class MealServlet extends HttpServlet {
                 break;
             case "create":
             case "update":
-                final Meal meal = action.equals("create") ?
+                final Meal meal = (action != null && action.equals("create")) ?
                         new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
                         controller.get(getId(request));
                 request.setAttribute("meal", meal);
@@ -73,7 +72,7 @@ public class MealServlet extends HttpServlet {
             case "all":
             default:
                 LOG.info("getAll");
-                request.setAttribute("meals", controller.getAllWithExceeded());
+                request.setAttribute("meals", controller.getFilteredWithExceeded(LocalDate.MIN, LocalTime.MIN, LocalDate.MAX, LocalTime.MAX));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
