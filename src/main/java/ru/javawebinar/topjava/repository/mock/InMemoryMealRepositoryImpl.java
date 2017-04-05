@@ -24,23 +24,23 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
     {
-        MealsUtil.MEALS.forEach(meal -> save(meal, 1));
+        MealsUtil.MEALS.forEach(meal -> {
+            meal.setUserId(1);
+            save(meal, 1);
+        });
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
-        if (meal.getUserId() == null) {
-            meal.setUserId(userId);
-        }
-        if (isBelongToOwner(meal, userId)) {
-            if (meal.isNew()) {
-                meal.setId(counter.incrementAndGet());
-            }
+        if (meal.isNew()) {
+            meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), meal);
-            return meal;
+        } else if (get(meal.getId(), userId) != null) {
+            repository.put(meal.getId(), meal);
         } else {
-            return null;
+            meal = null;
         }
+        return meal;
     }
 
     @Override
@@ -65,11 +65,13 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     public List<Meal> getFilteredByDate(LocalDate startDate, LocalDate endDate, int userId) {
         List<Meal> filteredList;
-        if ((startDate == null || endDate == null)) {
+        LocalDate tmpStartDate = startDate == null ? LocalDate.MIN : startDate;
+        LocalDate tmpEndDate = endDate == null ? LocalDate.MAX : endDate;
+        if (startDate == null && endDate == null) {
             filteredList = getAll(userId);
         } else {
             filteredList = getAll(userId).stream()
-                    .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate))
+                    .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), tmpStartDate, tmpEndDate))
                     .collect(Collectors.toList());
         }
         return filteredList.isEmpty() ? Collections.emptyList() : filteredList;

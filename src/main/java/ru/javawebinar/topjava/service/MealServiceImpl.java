@@ -18,8 +18,8 @@ public class MealServiceImpl implements MealService {
     private MealRepository repository;
 
     @Override
-    public Meal save(Meal meal, int userId) {
-        return repository.save(meal, userId);
+    public Meal save(Meal meal, int userId) throws NotFoundException {
+        return checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
     @Override
@@ -28,8 +28,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal get(int mealId, int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(mealId, id), mealId);
+    public Meal get(int mealId, int userId) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(mealId, userId), mealId);
     }
 
     @Override
