@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 
@@ -17,5 +19,13 @@ public class DateTimeUtil {
 
     public static String toString(LocalDateTime ldt) {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
+    }
+
+    public static LocalDate parseDate(String temporal) {
+        return temporal.isEmpty() ? null : LocalDate.parse(temporal);
+    }
+
+    public static LocalTime parseTime(String temporal) {
+        return temporal.isEmpty() ? null : LocalTime.parse(temporal);
     }
 }

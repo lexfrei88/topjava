@@ -59,10 +59,15 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         LocalDate tmpStartDate = startDate == null ? LocalDate.MIN : startDate;
         LocalDate tmpEndDate = endDate == null ? LocalDate.MAX : endDate;
         if (startDate == null && endDate == null) {
-            filteredList = getAll(userId);
+            filteredList = repository.values().stream()
+                    .filter(meal -> isBelongToOwner(meal, userId))
+                    .sorted(MealsUtil.comparatorByDateTimeDesc)
+                    .collect(Collectors.toList());
         } else {
-            filteredList = getAll(userId).stream()
-                    .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), tmpStartDate, tmpEndDate))
+            filteredList = repository.values().stream()
+                    .filter(meal -> (DateTimeUtil.isBetween(meal.getDate(), tmpStartDate, tmpEndDate) &&
+                            isBelongToOwner(meal, userId)))
+                    .sorted(MealsUtil.comparatorByDateTimeDesc)
                     .collect(Collectors.toList());
         }
         return filteredList;
@@ -72,13 +77,6 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public boolean isBelongToOwner(Meal meal, int userId) {
         return (meal != null && meal.getUserId() != null) &&
                 Objects.equals(meal.getUserId(), userId);
-    }
-
-    private List<Meal> getAll(int userId) {
-        return repository.values().stream()
-                .filter(meal -> isBelongToOwner(meal, userId))
-                .sorted(MealsUtil.comparatorByDateTimeDesc)
-                .collect(Collectors.toList());
     }
 }
 

@@ -19,6 +19,9 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import static ru.javawebinar.topjava.util.DateTimeUtil.parseDate;
+import static ru.javawebinar.topjava.util.DateTimeUtil.parseTime;
+
 /**
  * User: gkislin
  * Date: 19.08.2014
@@ -42,7 +45,6 @@ public class MealServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String action = request.getParameter("action");
-        System.out.println();
 
         switch (action == null ? "all" : action) {
             case "delete":
@@ -96,13 +98,5 @@ public class MealServlet extends HttpServlet {
     private int getId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.valueOf(paramId);
-    }
-
-    private LocalDate parseDate(String temporal) {
-        return temporal.isEmpty() ? null : LocalDate.parse(temporal);
-    }
-
-    private LocalTime parseTime(String temporal) {
-        return temporal.isEmpty() ? null : LocalTime.parse(temporal);
     }
 }
