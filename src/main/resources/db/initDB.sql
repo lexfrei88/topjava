@@ -35,9 +35,3 @@ CREATE TABLE meals
   CONSTRAINT meal_owner_inx UNIQUE (owner_id, id),
   FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE
 );
-
-INSERT INTO users
-  (name, email, password, registered, enabled, calories_per_day)
-VALUES
-  ('UserName', 'user@email.com', 'userPassword', now(), TRUE, 2000),
-  ('AdminName', 'admin@email.com', 'adminPassword', now(), TRUE, 3000);

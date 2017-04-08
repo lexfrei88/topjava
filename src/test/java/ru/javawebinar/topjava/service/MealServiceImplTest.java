@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,8 @@ import ru.javawebinar.topjava.util.DbPopulator;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -42,40 +43,55 @@ public class MealServiceImplTest {
         setAdminMealList();
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
     public void get_correct_meal() throws Exception {
         Meal actual = service.get(MEAL_2_ID, USER_ID);
-        MATCHER.assertEquals(userMealList.get(4), actual);
+        MATCHER.assertEquals(userMealList.get(2), actual);
     }
 
     @Test(expected = NotFoundException.class)
-    public void get_strangers_meal() throws Exception {
-        Meal actual = service.get(MEAL_2_ID, ADMIN_ID);
-        fail(actual.toString());
+    public void get_not_found_meal() throws Exception {
+        service.get(MEAL_2_ID, ADMIN_ID);
     }
 
     @Test
     public void delete_correct_meal() throws Exception {
-        service.delete(MEAL_3_ID, ADMIN_ID);
+        service.delete(MEAL_7_ID, ADMIN_ID);
         adminMealList.remove(1);
 
         MATCHER.assertCollectionEquals(adminMealList, service.getAll(ADMIN_ID));
     }
 
     @Test(expected = NotFoundException.class)
-    public void delete_stranger_meal() throws Exception {
+    public void delete_not_found_meal() throws Exception {
         service.delete(MEAL_1_ID, ADMIN_ID);
-        fail();
     }
 
     @Test
-    public void getBetweenDateTimes() throws Exception {
+    public void getBetweenDateTimes_top_from_adminMeals_list() throws Exception {
+        List<Meal> actual = service.getBetweenDateTimes(
+                LocalDateTime.parse("2017-01-15T22:00"),
+                LocalDateTime.parse("2017-01-16T22:00"),
+                ADMIN_ID);
+        MATCHER.assertCollectionEquals(actual, Collections.singletonList(adminMealList.get(0)));
+    }
 
+    @Test
+    public void getBetweenDateTimes_empty_list() throws Exception {
+        List<Meal> actual = service.getBetweenDateTimes(
+                LocalDateTime.parse("2020-01-15T22:00"),
+                LocalDateTime.parse("2030-01-15T22:00"),
+                USER_ID);
+        MATCHER.assertCollectionEquals(actual, Collections.emptyList());
+    }
+
+    @Test
+    public void getBetweenDateTimes_all() throws Exception {
+        List<Meal> actual = service.getBetweenDateTimes(
+                LocalDateTime.parse("2010-01-15T22:00"),
+                LocalDateTime.parse("2020-01-15T22:00"),
+                USER_ID);
+        MATCHER.assertCollectionEquals(actual, userMealList);
     }
 
     @Test
@@ -85,7 +101,7 @@ public class MealServiceImplTest {
 
     @Test
     public void update_correct() throws Exception {
-        Meal updated = new Meal(MEAL_5_ID, LocalDateTime.parse("2111-01-22T22:22"), "Dinner Update", 3333);
+        Meal updated = new Meal(MEAL_0_ID, LocalDateTime.parse("2100-01-01T00:00"), "Dinner Update", 1);
         service.update(updated, USER_ID);
         userMealList.set(0, updated);
 
@@ -93,15 +109,14 @@ public class MealServiceImplTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void update_strangers_meal() throws Exception {
-        Meal updated = service.get(MEAL_3_ID, USER_ID);
+    public void update_not_found_meal() throws Exception {
+        Meal updated = new Meal(MEAL_3_ID, LocalDateTime.parse("2100-01-01T00:00"), "Dinner Update", 1);
         service.update(updated, ADMIN_ID);
-        fail();
     }
 
     @Test
     public void save_correct() throws Exception {
-        Meal expected =  new Meal(LocalDateTime.parse("1000-01-31T00:01"), "New Meal", 1111);
+        Meal expected =  new Meal(LocalDateTime.parse("1000-01-01T00:00"), "New Meal", 1111);
         Meal actual = service.save(expected, ADMIN_ID);
         adminMealList.add(expected);
 
