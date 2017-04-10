@@ -11,6 +11,7 @@ import ru.javawebinar.topjava.util.DbPopulator;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,89 +40,81 @@ public class MealServiceImplTest {
     @Before
     public void setUp() throws Exception {
         dbPopulator.execute();
-        setUserMealList();
-        setAdminMealList();
     }
 
     @Test
-    public void get_correct_meal() throws Exception {
-        Meal actual = service.get(MEAL_2_ID, USER_ID);
-        MATCHER.assertEquals(userMealList.get(2), actual);
+    public void testGet() throws Exception {
+        Meal actual = service.get(USER_MEAL_2_ID, USER_ID);
+        MATCHER.assertEquals(USER_MEAL_2, actual);
     }
 
     @Test(expected = NotFoundException.class)
-    public void get_not_found_meal() throws Exception {
-        service.get(MEAL_2_ID, ADMIN_ID);
+    public void testGetNotFound() throws Exception {
+        service.get(USER_MEAL_0_ID, ADMIN_ID);
     }
 
     @Test
-    public void delete_correct_meal() throws Exception {
-        service.delete(MEAL_7_ID, ADMIN_ID);
-        adminMealList.remove(1);
+    public void testDelete() throws Exception {
+        service.delete(ADMIN_MEAL_1_ID, ADMIN_ID);
 
-        MATCHER.assertCollectionEquals(adminMealList, service.getAll(ADMIN_ID));
+        MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN_MEAL_0), service.getAll(ADMIN_ID));
     }
 
     @Test(expected = NotFoundException.class)
-    public void delete_not_found_meal() throws Exception {
-        service.delete(MEAL_1_ID, ADMIN_ID);
+    public void testDeleteNotFound() throws Exception {
+        service.delete(USER_MEAL_1_ID, ADMIN_ID);
     }
 
     @Test
-    public void getBetweenDateTimes_top_from_adminMeals_list() throws Exception {
+    public void testGetBetweenDateTimes() throws Exception {
         List<Meal> actual = service.getBetweenDateTimes(
                 LocalDateTime.parse("2017-01-15T22:00"),
                 LocalDateTime.parse("2017-01-16T22:00"),
                 ADMIN_ID);
-        MATCHER.assertCollectionEquals(actual, Collections.singletonList(adminMealList.get(0)));
+        MATCHER.assertCollectionEquals(actual, Collections.singletonList(ADMIN_MEAL_0));
     }
 
     @Test
-    public void getBetweenDateTimes_empty_list() throws Exception {
-        List<Meal> actual = service.getBetweenDateTimes(
-                LocalDateTime.parse("2020-01-15T22:00"),
-                LocalDateTime.parse("2030-01-15T22:00"),
-                USER_ID);
-        MATCHER.assertCollectionEquals(actual, Collections.emptyList());
+    public void testGetAll() throws Exception {
+        MATCHER.assertCollectionEquals(Arrays.asList(USER_MEAL_0,
+                USER_MEAL_1,
+                USER_MEAL_2,
+                USER_MEAL_3,
+                USER_MEAL_4,
+                USER_MEAL_5
+                ), service.getAll(USER_ID));
     }
 
     @Test
-    public void getBetweenDateTimes_all() throws Exception {
-        List<Meal> actual = service.getBetweenDateTimes(
-                LocalDateTime.parse("2010-01-15T22:00"),
-                LocalDateTime.parse("2020-01-15T22:00"),
-                USER_ID);
-        MATCHER.assertCollectionEquals(actual, userMealList);
-    }
-
-    @Test
-    public void getAll() throws Exception {
-        MATCHER.assertCollectionEquals(userMealList, service.getAll(USER_ID));
-    }
-
-    @Test
-    public void update_correct() throws Exception {
-        Meal updated = new Meal(MEAL_0_ID, LocalDateTime.parse("2100-01-01T00:00"), "Dinner Update", 1);
+    public void testUpdate() throws Exception {
+        Meal updated = new Meal(USER_MEAL_0_ID, LocalDateTime.parse("2100-01-01T00:00"), "Dinner Update", 1);
         service.update(updated, USER_ID);
-        userMealList.set(0, updated);
 
-        MATCHER.assertCollectionEquals(userMealList, service.getAll(USER_ID));
+        MATCHER.assertCollectionEquals(Arrays.asList(updated,
+                USER_MEAL_1,
+                USER_MEAL_2,
+                USER_MEAL_3,
+                USER_MEAL_4,
+                USER_MEAL_5
+                ), service.getAll(USER_ID));
     }
 
     @Test(expected = NotFoundException.class)
-    public void update_not_found_meal() throws Exception {
-        Meal updated = new Meal(MEAL_3_ID, LocalDateTime.parse("2100-01-01T00:00"), "Dinner Update", 1);
+    public void testUpdateNotFound() throws Exception {
+        Meal updated = new Meal(USER_MEAL_3_ID, LocalDateTime.parse("2100-01-01T00:00"), "Dinner Update", 1);
         service.update(updated, ADMIN_ID);
     }
 
     @Test
-    public void save_correct() throws Exception {
-        Meal expected =  new Meal(LocalDateTime.parse("1000-01-01T00:00"), "New Meal", 1111);
-        Meal actual = service.save(expected, ADMIN_ID);
-        adminMealList.add(expected);
+    public void testSave() throws Exception {
+        Meal saved =  new Meal(LocalDateTime.parse("1000-01-01T00:00"), "New Meal", 1);
+        Meal actual = service.save(saved, ADMIN_ID);
 
         assertNotNull(actual);
-        MATCHER.assertEquals(expected, actual);
-        MATCHER.assertCollectionEquals(adminMealList, service.getAll(ADMIN_ID));
+        MATCHER.assertEquals(saved, actual);
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN_MEAL_0,
+                ADMIN_MEAL_1,
+                saved
+                ), service.getAll(ADMIN_ID));
     }
 }
