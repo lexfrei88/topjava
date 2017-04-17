@@ -9,7 +9,6 @@ import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,30 +27,35 @@ public class JpaMealRepositoryImpl implements MealRepository {
 
         if (meal.isNew()) {
             em.persist(meal);
-            return meal;
-        } else if (get(meal.getId(), userId) != null) {
-            return em.merge(meal);
         } else {
-            return null;
+            meal = get(meal.getId(), userId) != null ? em.merge(meal) : null;
         }
+        return meal;
     }
 
     @Override
     @Transactional
     public boolean delete(int id, int userId) {
-        Query query = em.createNamedQuery(Meal.DELETE);
-        return query.setParameter(1, userId).setParameter(2, id).executeUpdate() != 0;
+        return em.createNamedQuery(Meal.DELETE)
+                .setParameter(1, userId)
+                .setParameter(2, id)
+                .executeUpdate() != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        List<Meal> mealList = em.createNamedQuery(Meal.GET, Meal.class).setParameter(1, userId).setParameter(2, id).getResultList();
+        List<Meal> mealList = em.createNamedQuery(Meal.GET, Meal.class)
+                .setParameter(1, userId)
+                .setParameter(2, id)
+                .getResultList();
         return DataAccessUtils.singleResult(mealList);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return em.createNamedQuery(Meal.ALL_SORTED, Meal.class).setParameter("userId", userId).getResultList();
+        return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 
     @Override

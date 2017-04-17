@@ -1,9 +1,10 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.ClassRule;
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.*;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -13,8 +14,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.rules.TestStatisticLogging;
-import ru.javawebinar.topjava.service.rules.TestStopwatchLogging;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -22,6 +21,7 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -42,17 +42,29 @@ public class MealServiceTest {
         SLF4JBridgeHandler.install();
     }
 
+    @Autowired
+    private MealService service;
+
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Rule
-    public Stopwatch stopwatch = new TestStopwatchLogging(testTimeMap, LOG);
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            long millis = TimeUnit.NANOSECONDS.toMillis(nanos);
+            String displayName = description.getDisplayName();
 
-    @ClassRule
-    public static ExternalResource statisticLogging = new TestStatisticLogging(testTimeMap, LOG);
+            LOG.info("{} succeeded in {} ms", displayName, millis);
+            testTimeMap.put(displayName, millis);
+        }
+    };
 
-    @Autowired
-    private MealService service;
+    @AfterClass
+    public static void afterClass() throws Exception {
+        testTimeMap.forEach((name, time) -> LOG.info("{} - {} milliseconds", name, time));
+    }
 
     @Test
     public void testDelete() throws Exception {
