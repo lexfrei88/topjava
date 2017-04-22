@@ -13,7 +13,8 @@ public class Profiles {
 
     public static final String
             JDBC = "jdbc",
-            JPA = "jpa";
+            JPA = "jpa",
+            SPRING_DATA = "datajpa";
 
-    public static final String REPOSITORY_IMPLEMENTATION = JPA;
+    public static final String REPOSITORY_IMPLEMENTATION = SPRING_DATA;
 }
