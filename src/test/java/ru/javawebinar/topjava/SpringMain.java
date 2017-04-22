@@ -1,26 +1,20 @@
 package ru.javawebinar.topjava;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.service.UserService;
-
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class SpringMain {
     public static void main(String[] args) {
-        ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-        System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
+//        ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext();
 
-        UserRepository userRepository = (UserRepository) appCtx.getBean("mockUserRepository");
-//        UserRepository userRepository = appCtx.getBean(UserRepository.class);
-//        userRepository.getAll();
-//
-//        UserService userService = appCtx.getBean(UserService.class);
-//        userService.save(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
+        appCtx.getEnvironment().setActiveProfiles(Profiles.ACTIVE_DB, Profiles.REPOSITORY_IMPLEMENTATION);
+        appCtx.load("spring/spring-tools.xml", "spring/spring-db.xml", "spring/spring-app.xml");
+        appCtx.refresh();
+
+        System.out.println("Bean definition names: ");
+        for (String s : appCtx.getBeanDefinitionNames()) {
+            System.out.println(s);
+        }
 
         appCtx.close();
     }
