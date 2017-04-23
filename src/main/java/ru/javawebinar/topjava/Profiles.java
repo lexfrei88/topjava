@@ -19,5 +19,5 @@ public class Profiles {
 
     public static final String JDBC = JDBC_HSQLDB;
 
-    public static final String REPOSITORY_IMPLEMENTATION = JDBC;
+    public static final String REPOSITORY_IMPLEMENTATION = SPRING_DATA;
 }
