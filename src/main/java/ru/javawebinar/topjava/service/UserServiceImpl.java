@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User getWithMeals(int id) {
         User user = get(id);
         Hibernate.initialize(user.getMeals());

@@ -58,7 +58,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Meal getWithUser(int id, int userId) {
         Meal meal = get(id, userId);
         Hibernate.initialize(meal.getUser());
