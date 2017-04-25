@@ -22,7 +22,7 @@ public class SpringDataMealServiceTest extends AbstractMealServiceTest {
 
     @Test
     public void testGetMealWithUser() throws Exception {
-        Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
+        Meal actual = service.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);
         MATCHER.assertEquals(ADMIN_MEAL1, actual);
         UserTestData.MATCHER.assertEquals(ADMIN, actual.getUser());
     }

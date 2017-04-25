@@ -15,8 +15,8 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @ActiveProfiles({Profiles.ACTIVE_DB, Profiles.SPRING_DATA})
 public class SpringDataUserServiceTest extends AbstractUserServiceTest {
     @Test
-    public void testGetUserMeal() throws Exception {
-        User user = service.get(ADMIN_ID);
+    public void testGetUserWithMeal() throws Exception {
+        User user = service.getWithMeals(ADMIN_ID);
         MATCHER.assertEquals(ADMIN, user);
         ru.javawebinar.topjava.MealTestData.MATCHER.assertCollectionEquals(Arrays.asList(ADMIN_MEAL1, ADMIN_MEAL2), user.getMeals());
     }
