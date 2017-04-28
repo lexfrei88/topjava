@@ -28,8 +28,8 @@ import static ru.javawebinar.topjava.UserTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles(Profiles.HSQL_DB)
-public class UserServiceTest {
+@ActiveProfiles(Profiles.ACTIVE_DB)
+public class AbstractUserServiceTest {
 
     static {
         // Only for postgres driver logging
