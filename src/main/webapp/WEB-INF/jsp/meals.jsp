@@ -10,7 +10,7 @@
 <script type="text/javascript" src="resources/js/mealDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
-<%--<section>
+<section>
     <h3><spring:message code="meals.title"/></h3>
 
     <form method="post" action="meals/filter">
@@ -35,7 +35,7 @@
     <hr>
     <a href="meals/create"><spring:message code="meals.add"/></a>
     <hr>
-</section>--%>
+</section>
 
 <div class="jumbotron">
     <div class="container">
