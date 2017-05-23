@@ -5,7 +5,7 @@ function makeEditable() {
 
     $('#detailsForm').submit(function () {
         save();
-        return true;
+        return false;
     });
 
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {

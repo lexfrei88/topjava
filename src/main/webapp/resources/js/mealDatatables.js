@@ -1,7 +1,7 @@
 /**
  * Created by Alex on 5/22/2017.
  */
-var ajaxUrl = 'ajax/meals/';
+var ajaxUrl = 'ajax/profile/meals/';
 var datatableApi;
 
 // $(document).ready(function () {
