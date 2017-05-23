@@ -10,39 +10,40 @@
 <script type="text/javascript" src="resources/js/mealDatatables.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
-<section>
-    <h3><spring:message code="meals.title"/></h3>
-
-    <form method="post" action="meals/filter">
-        <dl>
-            <dt><spring:message code="meals.startDate"/>:</dt>
-            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
-        </dl>
-        <dl>
-            <dt><spring:message code="meals.endDate"/>:</dt>
-            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
-        </dl>
-        <dl>
-            <dt><spring:message code="meals.startTime"/>:</dt>
-            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
-        </dl>
-        <dl>
-            <dt><spring:message code="meals.endTime"/>:</dt>
-            <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
-        </dl>
-        <button type="submit"><spring:message code="meals.filter"/></button>
-    </form>
-    <hr>
-    <a href="meals/create"><spring:message code="meals.add"/></a>
-    <hr>
-</section>
 
 <div class="jumbotron">
     <div class="container">
         <div class="shadow">
             <h3><spring:message code="meals.title"/></h3>
+                <div class="view-box">
+                    <form id="filter" class="form-horizontal" method="get">
+                        <dl>
+                            <dt><spring:message code="meals.startDate"/>:</dt>
+                            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
+                        </dl>
+                        <dl>
+                            <dt><spring:message code="meals.endDate"/>:</dt>
+                            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
+                        </dl>
+                        <dl>
+                            <dt><spring:message code="meals.startTime"/>:</dt>
+                            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
+                        </dl>
+                        <dl>
+                            <dt><spring:message code="meals.endTime"/>:</dt>
+                            <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
+                        </dl>
 
-            <div class="view-box">
+                        <a class="btn btn-info" onclick="resetFilter()">
+                            <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                        </a>
+
+                        <a class="btn btn-info" onclick="updateWithFilter()">
+                            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                        </a>
+                    </form>
+
+
                 <a class="btn btn-info" onclick="add()">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </a>

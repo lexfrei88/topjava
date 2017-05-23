@@ -37,3 +37,48 @@ $(function () {
     });
     makeEditable();
 });
+
+function deleteRow(id) {
+    $.ajax({
+        url: ajaxUrl + id,
+        type: 'DELETE',
+        success: function () {
+            updateWithFilter();
+            successNoty('Deleted');
+        }
+    });
+}
+
+function updateWithFilter() {
+    $.ajax({
+        type: "GET",
+        url: ajaxUrl + 'filter',
+        data: $('#filter').serialize(),
+        success: function (data) {
+            datatableApi.clear();
+            $.each(data, function (key, item) {
+                datatableApi.row.add(item);
+            });
+            datatableApi.draw();
+        }
+    });
+}
+
+function save() {
+    var form = $('#detailsForm');
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        data: form.serialize(),
+        success: function () {
+            $('#editRow').modal('hide');
+            updateWithFilter();
+            successNoty('Saved');
+        }
+    });
+}
+
+function resetFilter() {
+    $('#filter')[0].reset();
+    updateWithFilter();
+}
