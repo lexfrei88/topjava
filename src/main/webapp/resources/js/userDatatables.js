@@ -75,3 +75,20 @@ function save() {
         }
     });
 }
+
+function check() {
+
+}
+
+function changeEnable(id, value) {
+    var v = value;
+    $.ajax({
+            type: "POST",
+            url: ajaxUrl + id,
+            data: 'isEnable=' + value,
+            success: function () {
+                successNoty("Enable: " + value);
+            }
+        }
+    );
+}

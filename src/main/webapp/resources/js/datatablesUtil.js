@@ -11,6 +11,10 @@ function makeEditable() {
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
+
+    $(':checkbox').change(function () {
+        changeEnable($(this).attr("id"), $(this).prop("checked"));
+    });
 }
 
 function add() {
