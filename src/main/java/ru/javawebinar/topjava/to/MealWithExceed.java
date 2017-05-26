@@ -1,19 +1,29 @@
 package ru.javawebinar.topjava.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+import ru.javawebinar.topjava.model.Meal;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class MealWithExceed {
-    private final Integer id;
+    private Integer id;
 
-    private final LocalDateTime dateTime;
+    @NotNull
+    private LocalDateTime dateTime;
 
-    private final String description;
+    @NotBlank
+    private String description;
 
-    private final int calories;
+    @Range(min = 10, max = 5000, message = " must be between 10 and 5000")
+    private int calories;
 
-    private final boolean exceed;
+    private boolean exceed;
+
+    public MealWithExceed() {
+    }
 
     public MealWithExceed(@JsonProperty("id") Integer id,
                           @JsonProperty("dateTime") LocalDateTime dateTime,
@@ -24,6 +34,26 @@ public class MealWithExceed {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+        this.exceed = exceed;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public void setExceed(boolean exceed) {
         this.exceed = exceed;
     }
 
@@ -56,5 +86,9 @@ public class MealWithExceed {
                 ", calories=" + calories +
                 ", exceed=" + exceed +
                 '}';
+    }
+
+    public Meal toMeal() {
+        return new Meal(this.getId(), this.getDateTime(), this.getDescription(), this.getCalories());
     }
 }
