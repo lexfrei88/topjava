@@ -25,14 +25,14 @@
                                         code="meals.startDate"/>:</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="startDate" id="startDate">
+                                    <input class="form-control" type="text" name="startDate" id="startDate">
                                 </div>
 
                                 <label class="control-label col-sm-3" for="startTime"><spring:message
                                         code="meals.startTime"/>:</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="time" name="startTime" id="startTime">
+                                    <input class="form-control" type="text" name="startTime" id="startTime">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -40,14 +40,14 @@
                                         code="meals.endDate"/>:</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="endDate" id="endDate">
+                                    <input class="form-control" type="text" name="endDate" id="endDate">
                                 </div>
 
                                 <label class="control-label col-sm-3" for="endTime"><spring:message
                                         code="meals.endTime"/>:</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="time" name="endTime" id="endTime">
+                                    <input class="form-control" type="text" name="endTime" id="endTime">
                                 </div>
                             </div>
                         </form>
@@ -153,12 +153,30 @@
 </div>
 </body>
 <script type="text/javascript">
-    var i18n = [];
+    $(function () {
+        jQuery.datetimepicker.setLocale("${pageContext.request.locale.language}");
+
+        $('#startDate').datetimepicker({
+            timepicker:false,
+            format:'d.m.Y'
+        });
+        $('#startTime').datetimepicker({
+            datepicker:false,
+            format:'H:i'
+        });
+        $('#endDate').datetimepicker({
+            timepicker:false,
+            format:'d.m.Y'
+        });
+        $('#endTime').datetimepicker({
+            datepicker:false,
+            format:'H:i'
+        });
+    });
+</script>
+<jsp:include page="fragments/locScript.jsp"/>
+<script type="text/javascript">
     i18n["addTitle"] = '<spring:message code="meals.add"/>';
     i18n["editTitle"] = '<spring:message code="meals.edit"/>';
-
-    <c:forEach var='key' items='<%=new String[]{"common.deleted","common.saved","common.enabled","common.disabled","common.errorStatus"}%>'>
-    i18n['${key}'] = '<spring:message code="${key}"/>';
-    </c:forEach>
 </script>
 </html>
