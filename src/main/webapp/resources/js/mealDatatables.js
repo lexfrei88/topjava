@@ -24,11 +24,8 @@ $(function () {
         paging: false,
         info: true,
         createdRow: function ( row, data, index ) {
-            if ( data.exceed ) {
-                $('td', row).addClass('exceeded');
-            } else {
-                $('td', row).addClass('normal');
-            }
+            var clazz = data.exceed ? 'exceeded' : 'normal';
+            $('td', row).addClass(clazz);
         },
         columns: [
             {

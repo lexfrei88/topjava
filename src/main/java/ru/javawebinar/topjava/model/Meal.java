@@ -28,15 +28,15 @@ public class Meal extends BaseEntity {
     public static final String GET_BETWEEN = "Meal.getBetween";
 
     @Column(name = "date_time", nullable = false)
-    @NotNull
+    @NotNull(groups = {Validation.class})
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
-    @NotBlank
+    @NotBlank(groups = {Validation.class})
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range(min = 10, max = 5000)
+    @Range(min = 10, max = 5000, message = " must be between 10 and 5000", groups = {Validation.class})
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -108,4 +108,6 @@ public class Meal extends BaseEntity {
                 ", calories=" + calories +
                 '}';
     }
+
+    public interface Validation {}
 }

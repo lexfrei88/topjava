@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
@@ -43,7 +44,7 @@ public class MealAjaxController extends AbstractMealController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOrUpdate(@Valid MealWithExceed mealTo, BindingResult result) {
+    public ResponseEntity<String> createOrUpdate(@Validated(Meal.Validation.class) Meal meal, BindingResult result) {
         if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             result.getFieldErrors().forEach(fieldError -> sb.append(messageSource.getMessage("meals." + fieldError.getField(), null, LocaleContextHolder.getLocale()))
@@ -52,10 +53,10 @@ public class MealAjaxController extends AbstractMealController {
                                                             .append("<br>"));
             return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
-            if (mealTo.getId() == null) {
-                super.create(mealTo.toMeal());
+            if (meal.isNew()) {
+                super.create(meal);
             } else {
-                super.update(mealTo.toMeal(), mealTo.getId());
+                super.update(meal, meal.getId());
             }
             return new ResponseEntity<String>(HttpStatus.OK);
         }
