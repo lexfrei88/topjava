@@ -87,8 +87,4 @@ public class MealWithExceed {
                 ", exceed=" + exceed +
                 '}';
     }
-
-    public Meal toMeal() {
-        return new Meal(this.getId(), this.getDateTime(), this.getDescription(), this.getCalories());
-    }
 }
