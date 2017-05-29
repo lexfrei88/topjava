@@ -312,6 +312,12 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>eonasdan-bootstrap-datetimepicker</artifactId>
             <version>${webjars-bootstrap.datetimepicker.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bower</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
