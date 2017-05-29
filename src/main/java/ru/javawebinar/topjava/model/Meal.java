@@ -36,7 +36,7 @@ public class Meal extends BaseEntity {
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range(min = 10, max = 5000, message = " must be between 10 and 5000", groups = {Validation.class})
+    @Range(min = 10, max = 5000, groups = {Validation.class})
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
