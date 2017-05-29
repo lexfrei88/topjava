@@ -152,28 +152,6 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    $(function () {
-        jQuery.datetimepicker.setLocale("${pageContext.request.locale.language}");
-
-        $('#startDate').datetimepicker({
-            timepicker:false,
-            format:'d.m.Y'
-        });
-        $('#startTime').datetimepicker({
-            datepicker:false,
-            format:'H:i'
-        });
-        $('#endDate').datetimepicker({
-            timepicker:false,
-            format:'d.m.Y'
-        });
-        $('#endTime').datetimepicker({
-            datepicker:false,
-            format:'H:i'
-        });
-    });
-</script>
 <jsp:include page="fragments/locScript.jsp"/>
 <script type="text/javascript">
     i18n["addTitle"] = '<spring:message code="meals.add"/>';

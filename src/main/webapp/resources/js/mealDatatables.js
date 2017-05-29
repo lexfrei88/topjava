@@ -60,3 +60,24 @@ $(function () {
     });
     makeEditable();
 });
+
+$(function () {
+    jQuery.datetimepicker.setLocale("${pageContext.request.locale.language}");
+
+    $('#startDate').datetimepicker({
+        timepicker:false,
+        format:'d.m.Y'
+    });
+    $('#startTime').datetimepicker({
+        datepicker:false,
+        format:'H:i'
+    });
+    $('#endDate').datetimepicker({
+        timepicker:false,
+        format:'d.m.Y'
+    });
+    $('#endTime').datetimepicker({
+        datepicker:false,
+        format:'H:i'
+    });
+});
