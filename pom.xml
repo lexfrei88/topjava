@@ -285,23 +285,23 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>datatables</artifactId>
             <version>${webjars-datatables.version}</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.webjars.bower</groupId>-->
-                    <!--<artifactId>jquery</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bower</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>datetimepicker</artifactId>
             <version>${webjars-datetimepicker.version}</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.webjars.bower</groupId>-->
-                    <!--<artifactId>jquery</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bower</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.webjars.bower</groupId>
@@ -312,11 +312,6 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>eonasdan-bootstrap-datetimepicker</artifactId>
             <version>${webjars-bootstrap.datetimepicker.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.bower</groupId>
-            <artifactId>moment</artifactId>
-            <version>${webjars-moment.version}</version>
         </dependency>
 
 
