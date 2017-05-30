@@ -64,19 +64,11 @@ $(function () {
 $(function () {
     jQuery.datetimepicker.setLocale("${pageContext.request.locale.language}");
 
-    $('#startDate').datetimepicker({
+    $('#startDate, #endDate').datetimepicker({
         timepicker:false,
-        format:'d.m.Y'
+        format:'Y-m-d'
     });
-    $('#startTime').datetimepicker({
-        datepicker:false,
-        format:'H:i'
-    });
-    $('#endDate').datetimepicker({
-        timepicker:false,
-        format:'d.m.Y'
-    });
-    $('#endTime').datetimepicker({
+    $('#startTime, #endTime').datetimepicker({
         datepicker:false,
         format:'H:i'
     });
