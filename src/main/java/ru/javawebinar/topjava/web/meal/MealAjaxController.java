@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/ajax/profile/meals")
 public class MealAjaxController extends AbstractMealController {
+    private static final String NAME_PREFIX = "meals.";
 
     @Autowired
     private MessageSource messageSource;
@@ -47,7 +48,7 @@ public class MealAjaxController extends AbstractMealController {
     public ResponseEntity<String> createOrUpdate(@Validated(Meal.Validation.class) Meal meal, BindingResult result) {
         if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
-            result.getFieldErrors().forEach(fieldError -> sb.append(messageSource.getMessage("meals." + fieldError.getField(), null, LocaleContextHolder.getLocale()))
+            result.getFieldErrors().forEach(fieldError -> sb.append(messageSource.getMessage(NAME_PREFIX + fieldError.getField(), null, LocaleContextHolder.getLocale()))
                                                             .append(" ")
                                                             .append(messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()))
                                                             .append("<br>"));

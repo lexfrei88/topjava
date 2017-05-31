@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,15 +29,15 @@ public class Meal extends BaseEntity {
     public static final String GET_BETWEEN = "Meal.getBetween";
 
     @Column(name = "date_time", nullable = false)
-    @NotNull(groups = {Validation.class})
+    @NotNull(groups = {Validation.class, Default.class})
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
-    @NotBlank(groups = {Validation.class})
+    @NotBlank(groups = {Validation.class, Default.class})
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range(min = 10, max = 5000, groups = {Validation.class})
+    @Range(min = 10, max = 5000, groups = {Validation.class, Default.class})
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)

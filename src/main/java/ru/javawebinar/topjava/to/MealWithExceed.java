@@ -9,21 +9,15 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class MealWithExceed {
-    private Integer id;
+    private final Integer id;
 
-    @NotNull
-    private LocalDateTime dateTime;
+    private final LocalDateTime dateTime;
 
-    @NotBlank
-    private String description;
+    private final String description;
 
-    @Range(min = 10, max = 5000, message = " must be between 10 and 5000")
-    private int calories;
+    private final int calories;
 
-    private boolean exceed;
-
-    public MealWithExceed() {
-    }
+    private final boolean exceed;
 
     public MealWithExceed(@JsonProperty("id") Integer id,
                           @JsonProperty("dateTime") LocalDateTime dateTime,
@@ -34,26 +28,6 @@ public class MealWithExceed {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
-        this.exceed = exceed;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
-
-    public void setExceed(boolean exceed) {
         this.exceed = exceed;
     }
 

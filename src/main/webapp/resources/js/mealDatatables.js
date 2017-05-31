@@ -24,8 +24,7 @@ $(function () {
         paging: false,
         info: true,
         createdRow: function ( row, data, index ) {
-            var clazz = data.exceed ? 'exceeded' : 'normal';
-            $('td', row).addClass(clazz);
+            $('td', row).addClass(data.exceed ? 'exceeded' : 'normal');
         },
         columns: [
             {
@@ -65,11 +64,15 @@ $(function () {
     jQuery.datetimepicker.setLocale("${pageContext.request.locale.language}");
 
     $('#startDate, #endDate').datetimepicker({
-        timepicker:false,
-        format:'Y-m-d'
+        timepicker: false,
+        format: 'Y-m-d'
     });
     $('#startTime, #endTime').datetimepicker({
-        datepicker:false,
-        format:'H:i'
+        datepicker: false,
+        format: 'H:i'
     });
+
+    $('#dateTime').datetimepicker({
+        format: 'Y-m-d H:i'
+    })
 });
