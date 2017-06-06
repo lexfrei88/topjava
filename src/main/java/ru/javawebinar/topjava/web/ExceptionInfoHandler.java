@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.EqualEmailsException;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.FieldException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -49,7 +48,7 @@ public class ExceptionInfoHandler {
     @ResponseBody
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         if (e.getMessage().contains(EMAIL_INDEX_NAME)) {
-            e = new EqualEmailsException("User with this email already present in application");
+            e = new DataIntegrityViolationException("User with this email already present in application");
         }
         return logAndGetErrorInfo(req, e, true);
     }
