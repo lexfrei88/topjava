@@ -64,7 +64,7 @@ public class RootController extends AbstractUserController {
                 status.setComplete();
                 return "redirect:meals";
             } catch (DataIntegrityViolationException e) {
-                result.addError(new FieldError("error", "email", "User with this email already present in application"));
+                result.addError(new FieldError("userTo", "email", "User with this email already present in application"));
                 return "profile";
             }
         }
@@ -88,7 +88,7 @@ public class RootController extends AbstractUserController {
                 status.setComplete();
                 return "redirect:login?message=app.registered&username=" + userTo.getEmail();
             } catch (DataIntegrityViolationException e) {
-                result.addError(new FieldError("error", "email", "User with this email already present in application"));
+                result.addError(new FieldError("userTo", "email", "User with this email already present in application"));
                 model.addAttribute("register", true);
                 return "profile";
             }
