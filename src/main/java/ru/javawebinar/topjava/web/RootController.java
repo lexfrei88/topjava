@@ -58,10 +58,15 @@ public class RootController extends AbstractUserController {
         if (result.hasErrors()) {
             return "profile";
         } else {
-            super.update(userTo, AuthorizedUser.id());
-            AuthorizedUser.get().update(userTo);
-            status.setComplete();
-            return "redirect:meals";
+            try {
+                super.update(userTo, AuthorizedUser.id());
+                AuthorizedUser.get().update(userTo);
+                status.setComplete();
+                return "redirect:meals";
+            } catch (DataIntegrityViolationException e) {
+                result.addError(new FieldError("error", "email", "User with this email already present in application"));
+                return "profile";
+            }
         }
     }
 
