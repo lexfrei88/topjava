@@ -148,11 +148,9 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdateWithInvalidData() throws Exception {
-        Meal updated = getUpdatedWithInvalidData();
-
         ResultActions action = mockMvc.perform(put(REST_URL + MEAL1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated))
+                .content(JsonUtil.writeValue(getUpdatedWithInvalidData()))
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isUnprocessableEntity());
 
