@@ -36,7 +36,7 @@ public class MealTestData {
     }
 
     public static Meal getCreatedWithInvalidData() {
-        return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "", 1);
+        return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "", 100);
     }
 
     public static Meal getUpdated() {
@@ -44,6 +44,6 @@ public class MealTestData {
     }
 
     public static Meal getUpdatedWithInvalidData() {
-        return new Meal(MEAL1_ID, MEAL1.getDateTime(), "", 1);
+        return new Meal(MEAL1_ID, MEAL1.getDateTime(), "", 100);
     }
 }
