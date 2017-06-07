@@ -2,9 +2,7 @@ package ru.javawebinar.topjava.web.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.View;
@@ -49,7 +47,7 @@ public class AdminAjaxController extends AbstractUserController {
     @PostMapping
     public void createOrUpdate(@Valid UserTo userTo, BindingResult result) {
         if (result.hasErrors()) {
-            throw ValidationUtil.getErrorResponse(result);
+            throw ValidationUtil.getFieldException(result);
         }
         if (userTo.isNew()) {
             super.create(UserUtil.createNewFromTo(userTo));

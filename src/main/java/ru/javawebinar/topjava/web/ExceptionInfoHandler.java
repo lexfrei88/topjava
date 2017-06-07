@@ -41,7 +41,7 @@ public class ExceptionInfoHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public ErrorInfo handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
-        Exception exception = ValidationUtil.getErrorResponse(e.getBindingResult());
+        Exception exception = ValidationUtil.getFieldException(e.getBindingResult());
         return logAndGetErrorInfo(req, exception, false);
     }
 

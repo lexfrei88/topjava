@@ -45,7 +45,7 @@ public class ValidationUtil {
         }
     }
 
-    public static FieldException getErrorResponse(BindingResult result) {
+    public static FieldException getFieldException(BindingResult result) {
         StringBuilder sb = new StringBuilder();
         result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
         return new FieldException(sb.toString());
