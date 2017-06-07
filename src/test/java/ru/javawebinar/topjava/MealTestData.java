@@ -3,6 +3,7 @@ package ru.javawebinar.topjava;
 import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.exception.ErrorInfo;
 
 import java.time.Month;
 import java.util.Arrays;
@@ -34,7 +35,15 @@ public class MealTestData {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Созданный ужин", 300);
     }
 
+    public static Meal getCreatedWithInvalidData() {
+        return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "", 1);
+    }
+
     public static Meal getUpdated() {
         return new Meal(MEAL1_ID, MEAL1.getDateTime(), "Обновленный завтрак", 200);
+    }
+
+    public static Meal getUpdatedWithInvalidData() {
+        return new Meal(MEAL1_ID, MEAL1.getDateTime(), "", 1);
     }
 }

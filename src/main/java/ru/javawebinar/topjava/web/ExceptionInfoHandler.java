@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionInfoHandler {
     private static Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
     private final static String EMAIL_INDEX_NAME = "users_unique_email_idx";
+    private final static String EMAIL_DUPLICATION_MESSAGE = "User with this email already present in application";
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -40,7 +41,8 @@ public class ExceptionInfoHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public ErrorInfo handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
-        return logAndGetErrorInfo(req, e, false);
+        Exception exception = ValidationUtil.getErrorResponse(e.getBindingResult());
+        return logAndGetErrorInfo(req, exception, false);
     }
 
     @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
@@ -48,7 +50,7 @@ public class ExceptionInfoHandler {
     @ResponseBody
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         if (e.getMessage().contains(EMAIL_INDEX_NAME)) {
-            e = new DataIntegrityViolationException("User with this email already present in application");
+            e = new DataIntegrityViolationException(EMAIL_DUPLICATION_MESSAGE);
         }
         return logAndGetErrorInfo(req, e, true);
     }

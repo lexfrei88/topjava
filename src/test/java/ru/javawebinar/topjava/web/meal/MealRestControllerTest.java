@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
@@ -17,6 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.javawebinar.topjava.ErrorInfoTestData.ERROR_INFO_MODEL_MATCHER;
+import static ru.javawebinar.topjava.ErrorInfoTestData.EXPECTED_ERROR;
+import static ru.javawebinar.topjava.ErrorInfoTestData.EXPECTED_ERROR_WITH_ID;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.MealTestData.MATCHER;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
@@ -128,5 +132,32 @@ public class MealRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
                         MealsUtil.getWithExceeded(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), USER.getCaloriesPerDay())));
+    }
+
+    @Test
+    public void testCreateWithInvalidData() throws Exception {
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(getCreatedWithInvalidData()))
+                .with(userHttpBasic(ADMIN)));
+
+        ErrorInfo returned = ERROR_INFO_MODEL_MATCHER.fromJsonAction(action);
+
+        ERROR_INFO_MODEL_MATCHER.assertEquals(EXPECTED_ERROR, returned);
+    }
+
+    @Test
+    public void testUpdateWithInvalidData() throws Exception {
+        Meal updated = getUpdatedWithInvalidData();
+
+        ResultActions action = mockMvc.perform(put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(USER)))
+                .andExpect(status().isUnprocessableEntity());
+
+        ErrorInfo returned = ERROR_INFO_MODEL_MATCHER.fromJsonAction(action);
+
+        ERROR_INFO_MODEL_MATCHER.assertEquals(EXPECTED_ERROR_WITH_ID, returned);
     }
 }

@@ -46,7 +46,7 @@ public class MealAjaxController extends AbstractMealController {
     @PostMapping
     public void createOrUpdate(@Validated(View.ValidatedUI.class) Meal meal, BindingResult result) {
         if (result.hasErrors()) {
-            ValidationUtil.getErrorResponse(result);
+            throw ValidationUtil.getErrorResponse(result);
         }
         if (meal.isNew()) {
             super.create(meal);

@@ -45,10 +45,10 @@ public class ValidationUtil {
         }
     }
 
-    public static void getErrorResponse(BindingResult result) {
+    public static FieldException getErrorResponse(BindingResult result) {
         StringBuilder sb = new StringBuilder();
         result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-        throw new FieldException(sb.toString());
+        return new FieldException(sb.toString());
     }
 
     //    http://stackoverflow.com/a/28565320/548473
