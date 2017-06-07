@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,8 +23,11 @@ public class ExceptionInfoHandler {
     private static Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
     private final static String EMAIL_INDEX_NAME = "users_unique_email_idx";
     private final static String MEAL_DATETIME_INDEX_NAME = "meals_unique_user_datetime_idx";
-    private final static String EMAIL_DUPLICATION_MESSAGE = "User with this email already present in application";
-    private final static String MEAL_DATETIME_DUPLICATION_MESSAGE = "Meal for this date-time has already exist in application";
+    private final static String EMAIL_DUPLICATION_CODE = "exception.email";
+    private final static String MEAL_DATETIME_DUPLICATION_CODE = "exception.meal";
+
+    @Autowired
+    private MessageSource messageSource;
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -52,10 +57,10 @@ public class ExceptionInfoHandler {
     @ResponseBody
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         if (e.getMessage().contains(EMAIL_INDEX_NAME)) {
-            e = new DataIntegrityViolationException(EMAIL_DUPLICATION_MESSAGE);
+            e = new DataIntegrityViolationException(messageSource.getMessage(EMAIL_DUPLICATION_CODE, null, req.getLocale()));
         }
         if (e.getMessage().contains(MEAL_DATETIME_INDEX_NAME)) {
-            e = new DataIntegrityViolationException(MEAL_DATETIME_DUPLICATION_MESSAGE);
+            e = new DataIntegrityViolationException(messageSource.getMessage(MEAL_DATETIME_DUPLICATION_CODE, null, req.getLocale()));
         }
         return logAndGetErrorInfo(req, e, true);
     }
