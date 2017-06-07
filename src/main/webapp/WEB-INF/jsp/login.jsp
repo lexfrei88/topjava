@@ -20,6 +20,7 @@
                 <button type="submit" class="btn btn-success">
                     <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
                 </button>
+                <jsp:include page="fragments/chooseLang.jsp"/>
             </form:form>
         </div>
     </div>

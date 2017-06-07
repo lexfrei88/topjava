@@ -4,7 +4,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="container col-sm-11">
         <a href="meals" class="navbar-brand"><spring:message code="app.title"/></a>
 
         <div class="collapse navbar-collapse">
@@ -18,6 +18,7 @@
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                     </button>
                 </sec:authorize>
+                <jsp:include page="chooseLang.jsp"/>
             </form:form>
         </div>
     </div>
