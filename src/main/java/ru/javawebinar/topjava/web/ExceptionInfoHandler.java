@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionInfoHandler {
     private static Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
     private final static String EMAIL_INDEX_NAME = "users_unique_email_idx";
+    private final static String MEAL_DATETIME_INDEX_NAME = "meals_unique_user_datetime_idx";
     private final static String EMAIL_DUPLICATION_MESSAGE = "User with this email already present in application";
+    private final static String MEAL_DATETIME_DUPLICATION_MESSAGE = "Meal for this date-time has already exist in application";
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -51,6 +53,9 @@ public class ExceptionInfoHandler {
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         if (e.getMessage().contains(EMAIL_INDEX_NAME)) {
             e = new DataIntegrityViolationException(EMAIL_DUPLICATION_MESSAGE);
+        }
+        if (e.getMessage().contains(MEAL_DATETIME_INDEX_NAME)) {
+            e = new DataIntegrityViolationException(MEAL_DATETIME_DUPLICATION_MESSAGE);
         }
         return logAndGetErrorInfo(req, e, true);
     }
