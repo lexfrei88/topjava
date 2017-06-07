@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -9,6 +10,7 @@ import static ru.javawebinar.topjava.TestUtil.userAuth;
 import static ru.javawebinar.topjava.UserTestData.ADMIN;
 import static ru.javawebinar.topjava.UserTestData.USER;
 
+@Transactional
 public class RootControllerTest extends AbstractControllerTest {
 
     @Test

@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.user;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
@@ -19,11 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.ErrorInfoTestData.ERROR_INFO_MODEL_MATCHER;
 import static ru.javawebinar.topjava.ErrorInfoTestData.PROFILE_USER_UPDATE_EXPECTED_ERROR_WITH_ID;
-import static ru.javawebinar.topjava.ErrorInfoTestData.USER_UPDATE_EXPECTED_ERROR_WITH_ID;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.web.user.ProfileRestController.REST_URL;
 
+@Transactional
 public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
